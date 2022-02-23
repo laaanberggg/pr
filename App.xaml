@@ -1,0 +1,38 @@
+﻿<Application x:Class="murzaev.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:murzaev"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style x:Key="textStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Franklin Gothic Book"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Width" Value="100"/>
+        </Style>
+        <Style x:Key="Buttons" TargetType="Button">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="#FF4D6A54"/>
+            <Setter Property="FontFamily" Value="Franklin Gothic Book"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="200"/>
+        </Style>
+        <Style x:Key="textFP" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FF4D6A54"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="FontFamily" Value="Franklin Gothic Book"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style x:Key="RB" TargetType="RadioButton">
+            <Setter Property="FontFamily" Value="Franklin Gothic Book"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style x:Key="CB" TargetType="CheckBox">
+            <Setter Property="FontFamily" Value="Franklin Gothic Book"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+    </Application.Resources>
+</Application>

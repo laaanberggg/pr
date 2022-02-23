@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DataBase" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="causes">
+          <Key>
+            <PropertyRef Name="arendid" />
+          </Key>
+          <Property Name="arendid" Type="int" Nullable="false" />
+          <Property Name="causeArend" Type="nchar" MaxLength="35" />
+        </EntityType>
+        <EntityType Name="gender">
+          <Key>
+            <PropertyRef Name="genderid" />
+          </Key>
+          <Property Name="genderid" Type="int" Nullable="false" />
+          <Property Name="gender" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="polzovateli">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="20" />
+          <Property Name="surname" Type="nchar" MaxLength="20" />
+          <Property Name="gender" Type="int" />
+          <Property Name="login" Type="nchar" MaxLength="20" />
+          <Property Name="password" Type="int" />
+          <Property Name="admin" Type="bit" />
+        </EntityType>
+        <EntityType Name="rasp">
+          <Key>
+            <PropertyRef Name="raspid" />
+          </Key>
+          <Property Name="raspid" Type="int" Nullable="false" />
+          <Property Name="cause" Type="int" />
+          <Property Name="rezhs" Type="int" />
+          <Property Name="place" Type="int" />
+          <Property Name="data" Type="date" />
+          <Property Name="time" Type="time" Precision="7" />
+          <Property Name="namecause" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="rezh">
+          <Key>
+            <PropertyRef Name="rezhid" />
+          </Key>
+          <Property Name="rezhid" Type="int" Nullable="false" />
+          <Property Name="rezhfio" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="rezhrasp">
+          <Key>
+            <PropertyRef Name="rrid" />
+          </Key>
+          <Property Name="rrid" Type="int" Nullable="false" />
+          <Property Name="rezhid" Type="int" />
+          <Property Name="arendid" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="userPhoto">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="int" Nullable="false" />
+          <Property Name="photo" Type="varbinary(max)" />
+          <Property Name="disposition" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="zal">
+          <Key>
+            <PropertyRef Name="placeid" />
+          </Key>
+          <Property Name="placeid" Type="int" Nullable="false" />
+          <Property Name="place" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_rasp_causes">
+          <End Role="causes" Type="Self.causes" Multiplicity="0..1" />
+          <End Role="rasp" Type="Self.rasp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="causes">
+              <PropertyRef Name="arendid" />
+            </Principal>
+            <Dependent Role="rasp">
+              <PropertyRef Name="cause" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rasp_rezh">
+          <End Role="rezh" Type="Self.rezh" Multiplicity="0..1" />
+          <End Role="rasp" Type="Self.rasp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rezh">
+              <PropertyRef Name="rezhid" />
+            </Principal>
+            <Dependent Role="rasp">
+              <PropertyRef Name="rezhs" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rasp_zal">
+          <End Role="zal" Type="Self.zal" Multiplicity="0..1" />
+          <End Role="rasp" Type="Self.rasp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="zal">
+              <PropertyRef Name="placeid" />
+            </Principal>
+            <Dependent Role="rasp">
+              <PropertyRef Name="place" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rezhrasp_causes">
+          <End Role="causes" Type="Self.causes" Multiplicity="0..1" />
+          <End Role="rezhrasp" Type="Self.rezhrasp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="causes">
+              <PropertyRef Name="arendid" />
+            </Principal>
+            <Dependent Role="rezhrasp">
+              <PropertyRef Name="arendid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rezhrasp_rezh">
+          <End Role="rezh" Type="Self.rezh" Multiplicity="0..1" />
+          <End Role="rezhrasp" Type="Self.rezhrasp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rezh">
+              <PropertyRef Name="rezhid" />
+            </Principal>
+            <Dependent Role="rezhrasp">
+              <PropertyRef Name="rezhid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_gender">
+          <End Role="gender" Type="Self.gender" Multiplicity="0..1" />
+          <End Role="polzovateli" Type="Self.polzovateli" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="gender">
+              <PropertyRef Name="genderid" />
+            </Principal>
+            <Dependent Role="polzovateli">
+              <PropertyRef Name="gender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище DataBaseContainer">
+          <EntitySet Name="causes" EntityType="Self.causes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="gender" EntityType="Self.gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="polzovateli" EntityType="Self.polzovateli" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rasp" EntityType="Self.rasp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rezh" EntityType="Self.rezh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rezhrasp" EntityType="Self.rezhrasp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userPhoto" EntityType="Self.userPhoto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zal" EntityType="Self.zal" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_rasp_causes" Association="Self.FK_rasp_causes">
+            <End Role="causes" EntitySet="causes" />
+            <End Role="rasp" EntitySet="rasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rasp_rezh" Association="Self.FK_rasp_rezh">
+            <End Role="rezh" EntitySet="rezh" />
+            <End Role="rasp" EntitySet="rasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rasp_zal" Association="Self.FK_rasp_zal">
+            <End Role="zal" EntitySet="zal" />
+            <End Role="rasp" EntitySet="rasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rezhrasp_causes" Association="Self.FK_rezhrasp_causes">
+            <End Role="causes" EntitySet="causes" />
+            <End Role="rezhrasp" EntitySet="rezhrasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rezhrasp_rezh" Association="Self.FK_rezhrasp_rezh">
+            <End Role="rezh" EntitySet="rezh" />
+            <End Role="rezhrasp" EntitySet="rezhrasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_gender" Association="Self.FK_users_gender">
+            <End Role="gender" EntitySet="gender" />
+            <End Role="polzovateli" EntitySet="polzovateli" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataBase" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="causes">
+          <Key>
+            <PropertyRef Name="arendid" />
+          </Key>
+          <Property Name="arendid" Type="Int32" Nullable="false" />
+          <Property Name="causeArend" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="rasp" Relationship="Self.FK_rasp_causes" FromRole="causes" ToRole="rasp" />
+          <NavigationProperty Name="rezhrasp" Relationship="Self.FK_rezhrasp_causes" FromRole="causes" ToRole="rezhrasp" />
+        </EntityType>
+        <EntityType Name="gender">
+          <Key>
+            <PropertyRef Name="genderid" />
+          </Key>
+          <Property Name="genderid" Type="Int32" Nullable="false" />
+          <Property Name="gender1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="polzovateli" Relationship="Self.FK_users_gender" FromRole="gender" ToRole="polzovateli" />
+        </EntityType>
+        <EntityType Name="polzovateli">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="surname" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="password" Type="Int32" />
+          <Property Name="admin" Type="Boolean" />
+          <NavigationProperty Name="gender" Relationship="Self.FK_users_gender" FromRole="polzovateli" ToRole="gender" />
+        </EntityType>
+        <EntityType Name="rasp">
+          <Key>
+            <PropertyRef Name="raspid" />
+          </Key>
+          <Property Name="raspid" Type="Int32" Nullable="false" />
+          <Property Name="data" Type="DateTime" Precision="0" />
+          <Property Name="time" Type="Time" Precision="7" />
+          <Property Name="namecause" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="causes" Relationship="Self.FK_rasp_causes" FromRole="rasp" ToRole="causes" />
+          <NavigationProperty Name="rezh" Relationship="Self.FK_rasp_rezh" FromRole="rasp" ToRole="rezh" />
+          <NavigationProperty Name="zal" Relationship="Self.FK_rasp_zal" FromRole="rasp" ToRole="zal" />
+        </EntityType>
+        <EntityType Name="rezh">
+          <Key>
+            <PropertyRef Name="rezhid" />
+          </Key>
+          <Property Name="rezhid" Type="Int32" Nullable="false" />
+          <Property Name="rezhfio" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="rasp" Relationship="Self.FK_rasp_rezh" FromRole="rezh" ToRole="rasp" />
+          <NavigationProperty Name="rezhrasp" Relationship="Self.FK_rezhrasp_rezh" FromRole="rezh" ToRole="rezhrasp" />
+        </EntityType>
+        <EntityType Name="rezhrasp">
+          <Key>
+            <PropertyRef Name="rrid" />
+          </Key>
+          <Property Name="rrid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="causes" Relationship="Self.FK_rezhrasp_causes" FromRole="rezhrasp" ToRole="causes" />
+          <NavigationProperty Name="rezh" Relationship="Self.FK_rezhrasp_rezh" FromRole="rezhrasp" ToRole="rezh" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="userPhoto">
+          <Key>
+            <PropertyRef Name="userid" />
+          </Key>
+          <Property Name="userid" Type="Int32" Nullable="false" />
+          <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="disposition" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="zal">
+          <Key>
+            <PropertyRef Name="placeid" />
+          </Key>
+          <Property Name="placeid" Type="Int32" Nullable="false" />
+          <Property Name="place" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="rasp" Relationship="Self.FK_rasp_zal" FromRole="zal" ToRole="rasp" />
+        </EntityType>
+        <Association Name="FK_rasp_causes">
+          <End Role="causes" Type="Self.causes" Multiplicity="0..1" />
+          <End Role="rasp" Type="Self.rasp" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_rezhrasp_causes">
+          <End Role="causes" Type="Self.causes" Multiplicity="0..1" />
+          <End Role="rezhrasp" Type="Self.rezhrasp" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_users_gender">
+          <End Role="gender" Type="Self.gender" Multiplicity="0..1" />
+          <End Role="polzovateli" Type="Self.polzovateli" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_rasp_rezh">
+          <End Role="rezh" Type="Self.rezh" Multiplicity="0..1" />
+          <End Role="rasp" Type="Self.rasp" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_rasp_zal">
+          <End Role="zal" Type="Self.zal" Multiplicity="0..1" />
+          <End Role="rasp" Type="Self.rasp" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_rezhrasp_rezh">
+          <End Role="rezh" Type="Self.rezh" Multiplicity="0..1" />
+          <End Role="rezhrasp" Type="Self.rezhrasp" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="DataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="causes" EntityType="Self.causes" />
+          <EntitySet Name="gender" EntityType="Self.gender" />
+          <EntitySet Name="polzovateli" EntityType="Self.polzovateli" />
+          <EntitySet Name="rasp" EntityType="Self.rasp" />
+          <EntitySet Name="rezh" EntityType="Self.rezh" />
+          <EntitySet Name="rezhrasp" EntityType="Self.rezhrasp" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="userPhoto" EntityType="Self.userPhoto" />
+          <EntitySet Name="zal" EntityType="Self.zal" />
+          <AssociationSet Name="FK_rasp_causes" Association="Self.FK_rasp_causes">
+            <End Role="causes" EntitySet="causes" />
+            <End Role="rasp" EntitySet="rasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rezhrasp_causes" Association="Self.FK_rezhrasp_causes">
+            <End Role="causes" EntitySet="causes" />
+            <End Role="rezhrasp" EntitySet="rezhrasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_gender" Association="Self.FK_users_gender">
+            <End Role="gender" EntitySet="gender" />
+            <End Role="polzovateli" EntitySet="polzovateli" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rasp_rezh" Association="Self.FK_rasp_rezh">
+            <End Role="rezh" EntitySet="rezh" />
+            <End Role="rasp" EntitySet="rasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rasp_zal" Association="Self.FK_rasp_zal">
+            <End Role="zal" EntitySet="zal" />
+            <End Role="rasp" EntitySet="rasp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rezhrasp_rezh" Association="Self.FK_rezhrasp_rezh">
+            <End Role="rezh" EntitySet="rezh" />
+            <End Role="rezhrasp" EntitySet="rezhrasp" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DataBaseContainer" CdmEntityContainer="DataBaseEntities">
+          <EntitySetMapping Name="causes">
+            <EntityTypeMapping TypeName="DataBase.causes">
+              <MappingFragment StoreEntitySet="causes">
+                <ScalarProperty Name="arendid" ColumnName="arendid" />
+                <ScalarProperty Name="causeArend" ColumnName="causeArend" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="gender">
+            <EntityTypeMapping TypeName="DataBase.gender">
+              <MappingFragment StoreEntitySet="gender">
+                <ScalarProperty Name="genderid" ColumnName="genderid" />
+                <ScalarProperty Name="gender1" ColumnName="gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="polzovateli">
+            <EntityTypeMapping TypeName="DataBase.polzovateli">
+              <MappingFragment StoreEntitySet="polzovateli">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="admin" ColumnName="admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rasp">
+            <EntityTypeMapping TypeName="DataBase.rasp">
+              <MappingFragment StoreEntitySet="rasp">
+                <ScalarProperty Name="raspid" ColumnName="raspid" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="namecause" ColumnName="namecause" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rezh">
+            <EntityTypeMapping TypeName="DataBase.rezh">
+              <MappingFragment StoreEntitySet="rezh">
+                <ScalarProperty Name="rezhid" ColumnName="rezhid" />
+                <ScalarProperty Name="rezhfio" ColumnName="rezhfio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rezhrasp">
+            <EntityTypeMapping TypeName="DataBase.rezhrasp">
+              <MappingFragment StoreEntitySet="rezhrasp">
+                <ScalarProperty Name="rrid" ColumnName="rrid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DataBase.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userPhoto">
+            <EntityTypeMapping TypeName="DataBase.userPhoto">
+              <MappingFragment StoreEntitySet="userPhoto">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="disposition" ColumnName="disposition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zal">
+            <EntityTypeMapping TypeName="DataBase.zal">
+              <MappingFragment StoreEntitySet="zal">
+                <ScalarProperty Name="placeid" ColumnName="placeid" />
+                <ScalarProperty Name="place" ColumnName="place" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_rasp_causes" TypeName="DataBase.FK_rasp_causes" StoreEntitySet="rasp">
+            <EndProperty Name="causes">
+              <ScalarProperty Name="arendid" ColumnName="cause" />
+            </EndProperty>
+            <EndProperty Name="rasp">
+              <ScalarProperty Name="raspid" ColumnName="raspid" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="cause" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_rezhrasp_causes" TypeName="DataBase.FK_rezhrasp_causes" StoreEntitySet="rezhrasp">
+            <EndProperty Name="causes">
+              <ScalarProperty Name="arendid" ColumnName="arendid" />
+            </EndProperty>
+            <EndProperty Name="rezhrasp">
+              <ScalarProperty Name="rrid" ColumnName="rrid" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="arendid" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_users_gender" TypeName="DataBase.FK_users_gender" StoreEntitySet="polzovateli">
+            <EndProperty Name="gender">
+              <ScalarProperty Name="genderid" ColumnName="gender" />
+            </EndProperty>
+            <EndProperty Name="polzovateli">
+              <ScalarProperty Name="userid" ColumnName="userid" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="gender" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_rasp_rezh" TypeName="DataBase.FK_rasp_rezh" StoreEntitySet="rasp">
+            <EndProperty Name="rezh">
+              <ScalarProperty Name="rezhid" ColumnName="rezhs" />
+            </EndProperty>
+            <EndProperty Name="rasp">
+              <ScalarProperty Name="raspid" ColumnName="raspid" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="rezhs" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_rasp_zal" TypeName="DataBase.FK_rasp_zal" StoreEntitySet="rasp">
+            <EndProperty Name="zal">
+              <ScalarProperty Name="placeid" ColumnName="place" />
+            </EndProperty>
+            <EndProperty Name="rasp">
+              <ScalarProperty Name="raspid" ColumnName="raspid" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="place" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_rezhrasp_rezh" TypeName="DataBase.FK_rezhrasp_rezh" StoreEntitySet="rezhrasp">
+            <EndProperty Name="rezh">
+              <ScalarProperty Name="rezhid" ColumnName="rezhid" />
+            </EndProperty>
+            <EndProperty Name="rezhrasp">
+              <ScalarProperty Name="rrid" ColumnName="rrid" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="rezhid" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,30 @@
+﻿<Page x:Class="murzaev.adminka"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:murzaev"
+      mc:Ignorable="d" 
+     d:DesignHeight="450" d:DesignWidth="800"
+      Title="adminka" Background="#FF83837A">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Name="stMenu" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" Margin="0,0,0,236" Grid.RowSpan="2">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Style="{StaticResource Buttons}" Name="buttUserShow" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Click="buttUserShow_Click">Список пользователей</Button>
+                <Button Style="{StaticResource Buttons}" Name="buttZapis"  HorizontalAlignment="Center" Margin="5" Click="buttZapis_Click">Просмотр записей</Button>
+                <Button Style="{StaticResource Buttons}" Name="buttNewBron"  HorizontalAlignment="Center" Margin="5" Click="buttNewBron_Click">Забронировать зал</Button>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Style="{StaticResource Buttons}" x:Name="buttZanyat"  HorizontalAlignment="Center" Margin="5" Click="buttZanyat_Click" Content="Забронированное время"/>
+                <Button Style="{StaticResource Buttons}" x:Name="buttAcc"  HorizontalAlignment="Center" Margin="5" Click="buttAcc_Click" Content="Личный кабинет"/>
+                <Button Style="{StaticResource Buttons}" x:Name="buttExit"  HorizontalAlignment="Center" Margin="5" Click="buttExit_Click" Content="Выйти"/>
+            </StackPanel>
+        </StackPanel>
+        <Frame x:Name="AdminFrame" Grid.Row="1" Margin="0,42,0,0"></Frame>
+    </Grid>
+</Page>
